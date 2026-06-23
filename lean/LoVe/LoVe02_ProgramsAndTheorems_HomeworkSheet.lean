@@ -23,15 +23,16 @@ namespace LoVe
 list. Your function should be defined by recursion and not using `++`
 (`List.append`). -/
 
-def snoc {α : Type} : List α → α → List α :=
-  sorry
+def snoc {α : Type} : List α → α → List α
+  | [], a => [a]
+  | x :: xs, a => x :: snoc xs a
 
 /- 1.2. Convince yourself that your definition of `snoc` works by testing it on
 a few examples. -/
 
 #eval snoc [1] 2
 -- invoke `#eval` or `#reduce` here
-
+#eval snoc [] 5
 
 /- ## Question 2: Minus 2
 
@@ -39,8 +40,9 @@ a few examples. -/
 
 Hint: There should be three cases. -/
 
-def minusTwo : ℕ → ℕ :=
-  sorry
+def minusTwo : ℕ → ℕ
+  | 0 | 1 => 0
+  | n + 2 => n
 
 /- 2.2. Convince yourself that your definition of `minusTwo` works by testing
 it on a few examples. -/
@@ -54,8 +56,9 @@ it on a few examples. -/
 3.1. Define a `sum` function that computes the sum of all the numbers in a
 list. -/
 
-def sum : List ℕ → ℕ :=
-  sorry
+def sum : List ℕ → ℕ
+  | [] => 0
+  | x :: xs => x + sum xs
 
 #eval sum [1, 12, 3]   -- expected: 16
 
@@ -69,6 +72,17 @@ theorems. Schematically:
 Try to give meaningful names to your theorems. Use `sorry` as the proof. -/
 
 -- enter your theorem statements here
+theorem sum_snoc (ms : List ℕ) (n : ℕ) : 
+    sum (snoc ms n) = n + sum ms :=
+  sorry
+
+theorem sum_app (ms : List ℕ) (ns : List ℕ) : 
+    sum (ms ++ ns) = sum ms + sum ns :=
+  sorry
+
+theorem sum_rev (ns : List ℕ) :
+    sum (reverse ns) = sum ns :=
+  sorry
 
 
 /- ## Question 4: Lists
@@ -108,5 +122,13 @@ Hint: Take a look at `reverse_reverse` from the demonstration file. -/
 #check SorryTheorems.reverse_reverse
 
 -- enter your theorem statements here
+
+theorem append_assoc {α : Type} (xs ys zs : List α) :
+    append _ (append _ xs ys) zs = append _ xs (append _ ys zs) :=
+  sorry
+
+theorem reverse_append {α : Type} (xs ys : List α) :
+    reverse (append _ xs ys) = append _ (reverse ys) (reverse xs) :=
+  sorry
 
 end LoVe
